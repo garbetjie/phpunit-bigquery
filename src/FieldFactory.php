@@ -27,6 +27,7 @@ class FieldFactory
      * @param array|\stdClass|BytesField $object
      *
      * @return AbstractField
+     * @throws InvalidFieldException
      */
     public function buildField ($object)
     {
