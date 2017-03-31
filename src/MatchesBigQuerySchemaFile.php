@@ -4,6 +4,15 @@ namespace Garbetjie\PHPUnit\BigQuery;
 
 class MatchesBigQuerySchemaFile extends MatchesBigQuerySchemaJson
 {
+    /**
+     * MatchesBigQuerySchemaFile constructor.
+     *
+     * Used to load JSON from a file.
+     *
+     * @param string $schemaJsonFilePath
+     *
+     * @throws \RuntimeException
+     */
     public function __construct($schemaJsonFilePath)
     {
         if (!is_file($schemaJsonFilePath) || !is_readable($schemaJsonFilePath)) {
