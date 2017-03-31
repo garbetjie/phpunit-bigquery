@@ -44,15 +44,15 @@ class TimestampTest extends TestCase
             'float' => [1.1],
             'huge float' => [PHP_INT_MAX - 1.23451],
             'whole number float' => [1.0],
+            'zero float' => [0.0],
+            'negative whole number float' => [-1.0],
+            'negative float' => [-1.1],
         ];
     }
 
     public function invalidValueProvider ()
     {
         return [
-            'negative whole number float' => [-1.0],
-            'negative float' => [-1.1],
-            'zero float' => [0.0],
             'empty string' => [''],
             'non-empty string' => ['hello'],
             'integer' => [1],

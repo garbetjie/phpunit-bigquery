@@ -11,6 +11,8 @@ class TimestampField extends AbstractField
 
     /**
      * @inheritdoc
+     *
+     * @TODO implement various formats available from https://cloud.google.com/bigquery/data-types
      */
     protected function validateValue($value)
     {
