@@ -1,5 +1,22 @@
 {
-    "require-dev": {
-        "phpunit/phpunit": "^5.0"
+  "name": "garbetjie/phpunit-bigquery-schema",
+  "description": "A custom PHPUnit constraint to validate a given object/array against a BigQuery schema.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Geoff Garbers",
+      "email": "geoff@garbers.co.za"
     }
+  ],
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Garbetjie\\PHPUnit\\BigQuery\\": "src/",
+      "Garbetjie\\PHPUnit\\BigQuery\\Tests\\": "tests/"
+    }
+  }
 }
