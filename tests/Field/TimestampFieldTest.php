@@ -6,7 +6,7 @@ use Garbetjie\PHPUnit\BigQuery\Field\TimestampField;
 use Garbetjie\PHPUnit\BigQuery\Mode;
 use PHPUnit\Framework\TestCase;
 
-class TimestampTest extends TestCase
+class TimestampFieldTest extends TestCase
 {
 
     /**
