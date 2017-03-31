@@ -38,6 +38,18 @@ class FloatFieldTest extends TestCase
         $this->assertTrue($field->isValueAllowed(null));
     }
 
+    /**
+     * @dataProvider allowedValueProvider()
+     */
+    public function testRepeatedAllowedValues ($value)
+    {
+        $field = new FloatField('test', Mode::REPEATED);
+
+        $this->assertFalse($field->isValueAllowed($value));
+        $this->assertTrue($field->isValueAllowed([$value]));
+        $this->assertTrue($field->isValueAllowed([]));
+    }
+
     public function allowedValueProvider()
     {
         return [
