@@ -2,35 +2,35 @@
 
 namespace Garbetjie\PHPUnit\BigQuery;
 
-use Garbetjie\PHPUnit\BigQuery\Field\Field;
-use Garbetjie\PHPUnit\BigQuery\Field\Bytes;
-use Garbetjie\PHPUnit\BigQuery\Field\Float;
-use Garbetjie\PHPUnit\BigQuery\Field\Integer;
+use Garbetjie\PHPUnit\BigQuery\Field\AbstractField;
+use Garbetjie\PHPUnit\BigQuery\Field\BytesField;
+use Garbetjie\PHPUnit\BigQuery\Field\FloatField;
+use Garbetjie\PHPUnit\BigQuery\Field\IntegerField;
 use Garbetjie\PHPUnit\BigQuery\Field\Nestable;
-use Garbetjie\PHPUnit\BigQuery\Field\String;
-use Garbetjie\PHPUnit\BigQuery\Field\Struct;
-use Garbetjie\PHPUnit\BigQuery\Field\Timestamp;
+use Garbetjie\PHPUnit\BigQuery\Field\StringField;
+use Garbetjie\PHPUnit\BigQuery\Field\StructField;
+use Garbetjie\PHPUnit\BigQuery\Field\TimestampField;
 
 class FieldFactory
 {
     private $fieldTypeToClassMapping = [
-        Type::BYTES => Bytes::class,
-        Type::FLOAT => Float::class,
-        Type::INTEGER => Integer::class,
-        Type::RECORD => Struct::class,
-        Type::STRING => String::class,
-        Type::STRUCT => Struct::class,
-        Type::TIMESTAMP => Timestamp::class,
+        Type::BYTES => BytesField::class,
+        Type::FLOAT => FloatField::class,
+        Type::INTEGER => IntegerField::class,
+        Type::RECORD => StructField::class,
+        Type::STRING => StringField::class,
+        Type::STRUCT => StructField::class,
+        Type::TIMESTAMP => TimestampField::class,
     ];
 
     /**
-     * @param array|\stdClass|Field $object
+     * @param array|\stdClass|BytesField $object
      *
-     * @return Field
+     * @return AbstractField
      */
     public function buildField ($object)
     {
-        if ($object instanceof Field) {
+        if ($object instanceof AbstractField) {
             return clone $object;
         }
 
@@ -63,7 +63,7 @@ class FieldFactory
 
         // Create the field.
         $builtField = new $this->fieldTypeToClassMapping[$fieldType]($field['name'], $fieldMode);
-        /* @var Field $builtField */
+        /* @var AbstractField $builtField */
 
         if ($builtField instanceof Nestable) {
             if (!isset($field['fields']) || !is_array($field['fields']) || count($field['fields']) < 1) {

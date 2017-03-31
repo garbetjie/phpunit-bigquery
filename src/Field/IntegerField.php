@@ -3,20 +3,20 @@
 namespace Garbetjie\PHPUnit\BigQuery\Field;
 
 use Garbetjie\PHPUnit\BigQuery\Type;
-use Garbetjie\PHPUnit\BigQuery\Field\Field;
+use Garbetjie\PHPUnit\BigQuery\Field\AbstractField;
 
-class Float extends Field
+class IntegerField extends AbstractField
 {
     /**
      * @var string
      */
-    protected $type = Type::FLOAT;
+    protected $type = Type::INTEGER;
 
     /**
      * @inheritdoc
      */
     protected function validateValue($value)
     {
-        return is_float($value);
+        return is_integer($value);
     }
 }

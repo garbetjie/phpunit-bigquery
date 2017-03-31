@@ -4,7 +4,7 @@ namespace Garbetjie\PHPUnit\BigQuery\Field;
 
 use Garbetjie\PHPUnit\BigQuery\Mode;
 
-abstract class Field
+abstract class AbstractField
 {
     /**
      * @var string

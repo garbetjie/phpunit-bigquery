@@ -2,11 +2,11 @@
 
 namespace Garbetjie\PHPUnit\BigQuery\Tests\Field;
 
-use Garbetjie\PHPUnit\BigQuery\Field\Float;
+use Garbetjie\PHPUnit\BigQuery\Field\TimestampField;
 use Garbetjie\PHPUnit\BigQuery\Mode;
 use PHPUnit\Framework\TestCase;
 
-class FloatTest extends TestCase
+class TimestampTest extends TestCase
 {
 
     /**
@@ -14,7 +14,7 @@ class FloatTest extends TestCase
      */
     public function testAllowedValue($value)
     {
-        $field = new Float('test', Mode::REQUIRED);
+        $field = new TimestampField('test', Mode::REQUIRED);
 
         $this->assertTrue($field->isValueAllowed($value));
     }
@@ -24,17 +24,17 @@ class FloatTest extends TestCase
      */
     public function testInvalidValue($value)
     {
-        $field = new Float('test', Mode::REQUIRED);
+        $field = new TimestampField('test', Mode::REQUIRED);
 
         $this->assertFalse($field->isValueAllowed($value));
     }
 
     public function testNullValue()
     {
-        $field = new Float('test', Mode::REQUIRED);
+        $field = new TimestampField('test', Mode::REQUIRED);
         $this->assertFalse($field->isValueAllowed(null));
 
-        $field = new Float('test', Mode::NULLABLE);
+        $field = new TimestampField('test', Mode::NULLABLE);
         $this->assertTrue($field->isValueAllowed(null));
     }
 
@@ -42,16 +42,17 @@ class FloatTest extends TestCase
     {
         return [
             'float' => [1.1],
+            'huge float' => [PHP_INT_MAX - 1.23451],
             'whole number float' => [1.0],
-            'negative whole number float' => [-1.0],
-            'negative float' => [-1.1],
-            'zero' => [0.0],
         ];
     }
 
     public function invalidValueProvider ()
     {
         return [
+            'negative whole number float' => [-1.0],
+            'negative float' => [-1.1],
+            'zero float' => [0.0],
             'empty string' => [''],
             'non-empty string' => ['hello'],
             'integer' => [1],

@@ -2,10 +2,9 @@
 
 namespace Garbetjie\PHPUnit\BigQuery\Field;
 
-use Garbetjie\PHPUnit\BigQuery\Field\Field;
 use Garbetjie\PHPUnit\BigQuery\Type;
 
-class Bytes extends Field
+class BytesField extends AbstractField
 {
     /**
      * @var string

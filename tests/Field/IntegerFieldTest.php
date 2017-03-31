@@ -2,11 +2,11 @@
 
 namespace Garbetjie\PHPUnit\BigQuery\Tests\Field;
 
-use Garbetjie\PHPUnit\BigQuery\Field\String;
+use Garbetjie\PHPUnit\BigQuery\Field\IntegerField;
 use Garbetjie\PHPUnit\BigQuery\Mode;
 use PHPUnit\Framework\TestCase;
 
-class StringTest extends TestCase
+class IntegerFieldTest extends TestCase
 {
 
     /**
@@ -14,7 +14,7 @@ class StringTest extends TestCase
      */
     public function testAllowedValue($value)
     {
-        $field = new String("test", Mode::REQUIRED);
+        $field = new IntegerField('test', Mode::REQUIRED);
 
         $this->assertTrue($field->isValueAllowed($value));
     }
@@ -24,45 +24,39 @@ class StringTest extends TestCase
      */
     public function testInvalidValue($value)
     {
-        $field = new String("test", Mode::REQUIRED);
+        $field = new IntegerField('test', Mode::REQUIRED);
 
         $this->assertFalse($field->isValueAllowed($value));
     }
 
     public function testNullValue()
     {
-        $field = new String('test', Mode::REQUIRED);
+        $field = new IntegerField('test', Mode::REQUIRED);
         $this->assertFalse($field->isValueAllowed(null));
 
-        $field = new String('test', Mode::NULLABLE);
+        $field = new IntegerField('test', Mode::NULLABLE);
         $this->assertTrue($field->isValueAllowed(null));
     }
 
     public function allowedValueProvider()
     {
         return [
-            'empty string' => [''],
-            'non-empty string' => ['hi!'],
+            'integer' => [1],
+            'negative integer' => [-203],
+            'zero' => [0],
         ];
     }
 
     public function invalidValueProvider ()
     {
-        $invalidValues = [
-            'integer' => [1],
+        return [
             'float' => [1.1],
+            'negative float' => [-1.0],
+            'zero float' => [0.0],
+            'empty string' => [''],
+            'non-empty string' => ['hello'],
             'array' => [[]],
             'object' => [new \stdClass()],
-            'callable' => [function () {}],
-            'boolean false' => [false],
-            'boolean true' => [true],
         ];
-
-        $fp = tmpfile();
-        if (is_resource($fp)) {
-            $invalidValues['resource'] = [$fp];
-        }
-
-        return $invalidValues;
     }
 }

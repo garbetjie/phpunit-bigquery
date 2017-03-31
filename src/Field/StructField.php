@@ -2,16 +2,16 @@
 
 namespace Garbetjie\PHPUnit\BigQuery\Field;
 
-use Garbetjie\PHPUnit\BigQuery\Field\Field;
+use Garbetjie\PHPUnit\BigQuery\Field\AbstractField;
 use Garbetjie\PHPUnit\BigQuery\Field\Nestable;
 use Garbetjie\PHPUnit\BigQuery\FieldFactory;
 use Garbetjie\PHPUnit\BigQuery\Type;
 use Garbetjie\PHPUnit\BigQuery\InvalidFieldException;
 
-class Struct extends Field implements Nestable
+class StructField extends AbstractField implements Nestable
 {
     /**
-     * @var Field[]
+     * @var AbstractField[]
      */
     private $nested = [];
 

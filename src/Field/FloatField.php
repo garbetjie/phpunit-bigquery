@@ -3,11 +3,14 @@
 namespace Garbetjie\PHPUnit\BigQuery\Field;
 
 use Garbetjie\PHPUnit\BigQuery\Type;
-use Garbetjie\PHPUnit\BigQuery\Field\Field;
+use Garbetjie\PHPUnit\BigQuery\Field\AbstractField;
 
-class Timestamp extends Field
+class FloatField extends AbstractField
 {
-    protected $type = Type::TIMESTAMP;
+    /**
+     * @var string
+     */
+    protected $type = Type::FLOAT;
 
     /**
      * @inheritdoc
