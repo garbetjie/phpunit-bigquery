@@ -33,6 +33,8 @@ class StructField extends AbstractField implements Nestable
             return false;
         }
 
+        $value = new \ArrayObject($value);
+
         // Now, we need to match against the field types too.
         foreach ($this->nested as $schemaField) {
             if (!$schemaField->isValueAllowed($value[$schemaField->getName()])) {
