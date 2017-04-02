@@ -140,4 +140,65 @@ class FieldFactoryTest extends TestCase
             )
         );
     }
+
+    public function testNoNameForField()
+    {
+        $this->expectException(InvalidFieldException::class);
+
+        $this->factory->buildField([
+            'type' => Type::STRING,
+        ]);
+    }
+
+    public function testNoTypeForField()
+    {
+        $this->expectException(InvalidFieldException::class);
+
+        $this->factory->buildField([
+            'name' => 'test_field',
+        ]);
+    }
+
+    public function testInvalidTypeForField ()
+    {
+        $this->expectException(InvalidFieldException::class);
+
+        $this->factory->buildField([
+            'name' => 'test_field',
+            'type' => 'INVALID_FIELD_TYPE',
+        ]);
+    }
+
+    public function testNoFieldsProperty()
+    {
+        $this->expectException(InvalidFieldException::class);
+
+        $this->factory->buildField([
+            'name' => 'test_field',
+            'type' => Type::STRUCT,
+        ]);
+    }
+
+    /**
+     * @dataProvider invalidFieldPropertyDataProvider()
+     */
+    public function testInvalidFieldsProperty($invalidFieldProperty)
+    {
+        $this->expectException(InvalidFieldException::class);
+
+        $this->factory->buildField([
+            'name' => 'test_field',
+            'type' => Type::STRUCT,
+            'fields' => $invalidFieldProperty,
+        ]);
+    }
+
+    public function invalidFieldPropertyDataProvider()
+    {
+        return [
+            [[]],
+            [null],
+            [new \stdClass()],
+        ];
+    }
 }
