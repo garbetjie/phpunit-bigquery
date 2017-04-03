@@ -3,6 +3,7 @@
 namespace Garbetjie\PHPUnit\BigQuery;
 
 use Garbetjie\PHPUnit\BigQuery\Field\AbstractField;
+use Garbetjie\PHPUnit\BigQuery\Field\StructField;
 
 class MatchesBigQuerySchemaJson extends \PHPUnit_Framework_Constraint
 {
@@ -46,17 +47,11 @@ class MatchesBigQuerySchemaJson extends \PHPUnit_Framework_Constraint
             return false;
         }
 
-        $jsonObject = new \ArrayObject($jsonObject);
+        // Create a fake STRUCT field - the validation is the same.
+        $fakeStructRoot = new StructField('fake_root', Mode::REQUIRED);
+        $fakeStructRoot->setNested($this->schemaFields);
 
-        foreach ($this->schemaFields as $schemaField) {
-            $givenValue = array_key_exists($schemaField->getName(), $jsonObject) ? $jsonObject[$schemaField->getName()] : null;
-
-            if (!$schemaField->isValueAllowed($givenValue)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $fakeStructRoot->isValueAllowed($jsonObject);
     }
 
     /**
