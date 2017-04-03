@@ -136,4 +136,22 @@ class StructFieldTest extends TestCase
         $this->assertTrue($structField->isValueAllowed($testValueAsArray), 'testing as array');
         $this->assertTrue($structField->isValueAllowed($testValueAsObject), 'testing as object');
     }
+
+    public function testWithEmptyStructProperty()
+    {
+        $structField = new StructField('struct', Mode::REQUIRED);
+
+        $this->assertFalse($structField->isValueAllowed(null));
+    }
+
+    public function testWithRepeatedProperties()
+    {
+        $structField = new StructField('struct', Mode::REQUIRED);
+        $structField->setNested([new StringField('string', Mode::REPEATED)]);
+
+        $this->assertFalse($structField->isValueAllowed(["string" => null]));
+        $this->assertFalse($structField->isValueAllowed(["string" => ""]));
+        $this->assertFalse($structField->isValueAllowed(["string" => [null]]));
+        $this->assertTrue($structField->isValueAllowed(["string" => [""]]));
+    }
 }
