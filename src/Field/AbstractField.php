@@ -72,16 +72,20 @@ abstract class AbstractField
      */
     public function isValueAllowed($value)
     {
-        if ($value === null) {
-            return !$this->isRequired();
-        }
-
         if ($this->isRepeatable()) {
+            // Repeated records *must* be an array.
             if (!is_array($value)) {
                 return false;
-            } else {
-                return array_filter($value, [$this, 'validateValue']) === $value;
             }
+
+            // Repeated records cannot be populated with NULL values.
+            if (array_search(null, $value, true) !== false) {
+                return false;
+            }
+
+            return array_filter($value, [$this, 'validateValue']) === $value;
+        } elseif ($value === null) {
+            return !$this->isRequired() && !$this->isRepeatable();
         } else {
             return $this->validateValue($value);
         }

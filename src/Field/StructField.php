@@ -37,7 +37,13 @@ class StructField extends AbstractField implements Nestable
 
         // Now, we need to match against the field types too.
         foreach ($this->nested as $schemaField) {
-            if (!$schemaField->isValueAllowed($value[$schemaField->getName()])) {
+            if (array_key_exists($schemaField->getName(), $value)) {
+                $valueToTest = $value[$schemaField->getName()];
+            } else {
+                $valueToTest = $schemaField->isRepeatable() ? [] : null;
+            }
+
+            if (!$schemaField->isValueAllowed($valueToTest)) {
                 return false;
             }
         }
