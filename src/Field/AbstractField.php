@@ -58,14 +58,6 @@ abstract class AbstractField
     }
 
     /**
-     * @return string
-     */
-    public function getMode()
-    {
-        return $this->mode;
-    }
-
-    /**
      * @param mixed $value
      *
      * @return bool
