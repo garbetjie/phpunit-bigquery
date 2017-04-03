@@ -82,6 +82,8 @@ class FieldFactory
      *
      * @param string $fieldMode
      * @return bool
+     *
+     * @codeCoverageIgnore
      */
     private function isValidFieldMode ($fieldMode)
     {
@@ -101,6 +103,8 @@ class FieldFactory
      *
      * @param string $fieldType
      * @return bool
+     *
+     * @codeCoverageIgnore
      */
     private function isValidFieldType($fieldType)
     {
