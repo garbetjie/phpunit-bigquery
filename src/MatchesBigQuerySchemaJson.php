@@ -26,6 +26,8 @@ class MatchesBigQuerySchemaJson extends \PHPUnit_Framework_Constraint
 
     /**
      * @return string
+     *
+     * @codeCoverageIgnore
      */
     public function toString()
     {

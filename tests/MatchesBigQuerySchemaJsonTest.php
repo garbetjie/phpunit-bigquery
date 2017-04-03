@@ -119,7 +119,9 @@ class MatchesBigQuerySchemaJsonTest extends TestCase
                     'id' => '',
                     'created' => uniqid(),
                 ]
-            ]
+            ],
+            'empty document' => [null],
+            'string document' => ['Hello, World!'],
         ];
     }
 
