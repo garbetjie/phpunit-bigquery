@@ -7,9 +7,16 @@ use PHPUnit\Framework\TestCase;
 
 class MatchesBigQuerySchemaJsonTest extends TestCase
 {
-    public function testSchemaMatches()
+    /**
+     * @var MatchesBigQuerySchemaJson
+     */
+    private $constraint;
+
+    protected function setUp()
     {
-        $constraint = new MatchesBigQuerySchemaJson([
+        parent::setUp();
+
+        $this->constraint = new MatchesBigQuerySchemaJson([
             [
                 "mode" => "REQUIRED",
                 "name" => "id",
@@ -44,7 +51,8 @@ class MatchesBigQuerySchemaJsonTest extends TestCase
                                 "mode" => "REQUIRED",
                                 "name" => "float",
                                 "type" => "FLOAT",
-                            ],[
+                            ],
+                            [
                                 "mode" => "REQUIRED",
                                 "name" => "int",
                                 "type" => "INTEGER",
@@ -54,40 +62,115 @@ class MatchesBigQuerySchemaJsonTest extends TestCase
                 ]
             ]
         ]);
+    }
 
-        $testValue = [
-            'id' => '',
-            'created' => microtime(true),
-            'outgoing' => [
+    /**
+     * @dataProvider validValueProvider()
+     */
+    public function testSchemaMatches($testValue)
+    {
+        $this->assertTrue(
+            $this->constraint->evaluate($testValue, '', true)
+        );
+    }
+
+    /**
+     * @dataProvider invalidValueProvider()
+     */
+    public function testSchemaFailures($testValue)
+    {
+        $this->assertFalse(
+            $this->constraint->evaluate($testValue, '', true)
+        );
+    }
+
+    public function invalidValueProvider ()
+    {
+        return [
+            'null for repeated' => [
                 [
-                    'id' => 1.1,
+                    'id' => '',
                     'created' => microtime(true),
-                    'object' => [
-                        'float' => 2.3,
-                        'int' => -1,
-                    ],
-                ],
+                    'outgoing' => null,
+                ]
+            ],
+            'array null for repeated' => [
                 [
-                    'id' => -1.1,
+                    'id' => '',
                     'created' => microtime(true),
-                    'object' => [
-                        'float' => 2.3,
-                        'int' => -1,
-                    ],
-                ],
+                    'outgoing' => [null],
+                ]
+            ],
+            'string for struct' => [
                 [
-                    'id' => 344324324.0,
+                    'id' => '',
+                    'created' => null,
+                    'outgoing' => [''],
+                ]
+            ],
+            'null for timestamp' => [
+                [
+                    'id' => '',
+                    'created' => null,
+                ]
+            ],
+            'string for timestamp' => [
+                [
+                    'id' => '',
+                    'created' => uniqid(),
+                ]
+            ]
+        ];
+    }
+
+    public function validValueProvider()
+    {
+        return [
+            'full object' => [
+                [
+                    'id' => '',
                     'created' => microtime(true),
-                    'object' => [
-                        'float' => 2.3,
-                        'int' => -1,
+                    'outgoing' => [
+                        [
+                            'id' => 1.1,
+                            'created' => microtime(true),
+                            'object' => [
+                                'float' => 2.3,
+                                'int' => -1,
+                            ],
+                        ],
+                        [
+                            'id' => -1.1,
+                            'created' => microtime(true),
+                            'object' => [
+                                'float' => 2.3,
+                                'int' => -1,
+                            ],
+                        ],
+                        [
+                            'id' => 344324324.0,
+                            'created' => microtime(true),
+                            'object' => [
+                                'float' => 2.3,
+                                'int' => -1,
+                            ],
+                        ],
                     ],
                 ],
             ],
+            'empty outgoing property' => [
+                [
+                    'id' => '',
+                    'created' => microtime(true),
+                    'outgoing' => [],
+                ],
+            ],
+            'no outgoing property' => [
+                [
+                    'id' => '',
+                    'created' => microtime(true),
+                ],
+            ],
         ];
-
-        $this->assertTrue(
-            $constraint->evaluate($testValue, '', true)
-        );
     }
 }
